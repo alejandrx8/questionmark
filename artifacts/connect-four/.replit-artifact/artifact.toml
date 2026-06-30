@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Connect Four"
+version = "1.0.0"
+id = "artifacts/connect-four"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21077
+
+[services.development]
+run = "pnpm --filter @workspace/connect-four run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/connect-four", "run", "build" ]
+publicDir = "artifacts/connect-four/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21077"
+BASE_PATH = "/"

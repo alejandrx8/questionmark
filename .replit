@@ -11,6 +11,27 @@ env = { "CI" = "true" }
 [workflows]
 runButton = "Project"
 
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Connect Four"
+
+[[workflows.workflow]]
+name = "Connect Four"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=21077 BASE_PATH=/ pnpm --filter @workspace/connect-four run dev"
+waitForPort = 21077
+
 [agent]
 stack = "PNPM_WORKSPACE"
 expertMode = true
