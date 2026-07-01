@@ -19,26 +19,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v3
         with:
           version: 9
-
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: pnpm
-
       - name: Install dependencies
-       run: pnpm install --no-frozen-lockfile
-
+        run: pnpm install --no-frozen-lockfile
       - name: Build
         working-directory: artifacts/connect-four
         env:
-          BASE_PATH: /${{ github.event.repository.name }}
+          BASE_PATH: /questionmark
           NODE_ENV: production
         run: pnpm build
-
       - uses: actions/upload-pages-artifact@v3
         with:
           path: artifacts/connect-four/dist/public
