@@ -14,7 +14,6 @@ function findDropRow(board: Board, col: number): number {
   return 0;
 }
 
-const CELL_SIZE = 58;
 
 export default function Game() {
   const [board, setBoard] = useState<Board>(createBoard);
@@ -70,9 +69,10 @@ export default function Game() {
   return (
     <>
       <style>{`
-        @keyframes piece-drop {
-          from { transform: translateY(var(--drop-from)); }
-          to   { transform: translateY(0); }
+        @keyframes piece-in {
+          0%   { transform: translateY(-10px); opacity: 0; }
+          60%  { transform: translateY(2px);  opacity: 1; }
+          100% { transform: translateY(0);    opacity: 1; }
         }
         .cell-btn { -webkit-tap-highlight-color: transparent; }
         .cell-btn:active, .cell-btn:focus { background: transparent !important; outline: none; }
@@ -90,14 +90,13 @@ export default function Game() {
             ))}
           </div>
 
-          <div style={{ background: "#374151", borderRadius: "8px", padding: "8px", display: "grid", gap: "5px", overflow: "hidden" }}>
+          <div style={{ background: "#374151", borderRadius: "8px", padding: "8px", display: "grid", gap: "5px" }}>
             {Array.from({ length: ROWS }, (_, r) => (
               <div key={r} style={{ display: "grid", gridTemplateColumns: `repeat(${COLS}, 1fr)`, gap: "5px" }}>
                 {Array.from({ length: COLS }, (_, c) => {
                   const cell = board[r][c];
                   const winning = isWinCell(r, c);
                   const isNew = lastPlaced?.row === r && lastPlaced?.col === c && cell !== 0;
-                  const dropFrom = `${-(r * CELL_SIZE + 24)}px`;
 
                   return (
                     <button
@@ -126,10 +125,7 @@ export default function Game() {
                           borderRadius: "50%",
                           background: cell === 0 ? "#1a1a1a" : cell === 1 ? (winning ? "#b91c1c" : "#ef4444") : (winning ? "#f3f4f6" : "#9ca3af"),
                           boxShadow: winning ? "0 0 0 2px rgba(255,255,255,0.35) inset" : "none",
-                          ...(isNew ? {
-                            "--drop-from": dropFrom,
-                            animation: `piece-drop ${Math.min(80 + r * 28, 220)}ms ease-in`,
-                          } as React.CSSProperties : {}),
+                          ...(isNew ? { animation: "piece-in 180ms ease-out" } : {}),
                         }}
                       />
                     </button>
