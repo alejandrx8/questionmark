@@ -69,9 +69,8 @@ export default function Game() {
     <>
       <style>{`
         @keyframes piece-pop {
-          0%   { transform: scale(0); opacity: 0; }
-          70%  { transform: scale(1.12); opacity: 1; }
-          85%  { transform: scale(0.95); }
+          0%   { transform: scale(0.5); opacity: 0.5; }
+          70%  { transform: scale(1.05); opacity: 1; }
           100% { transform: scale(1); }
         }
         .cell-btn { -webkit-tap-highlight-color: transparent; }
