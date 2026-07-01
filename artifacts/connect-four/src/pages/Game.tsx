@@ -140,7 +140,7 @@ export default function Game() {
             )}
             {gameOver && (
               <span style={{ fontSize: "13px", color: "#888", marginRight: "auto" }}>
-                {status === "win" ? "You win." : status === "draw" ? "Draw." : ""}
+                {status === "win" ? "You win." : ""}
               </span>
             )}
             <button
@@ -150,6 +150,12 @@ export default function Game() {
               New Game
             </button>
           </div>
+
+          {status === "draw" && (
+            <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
+              u weren't supposed to tie try again smh
+            </div>
+          )}
 
           {status === "lose" && (
             <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
