@@ -162,7 +162,7 @@ export default function Game() {
               <div>jajajaja I win 😝 I was letting u win all along btw</div>
               <div style={{ marginTop: "12px" }}>
                 <a
-                  href="#"
+                  href="https://alejandrx8.github.io/imreallynotgoodatnamingthings/"
                   style={{ fontSize: "13px", padding: "8px 14px", borderRadius: "4px", border: "1px solid #555", background: "#333", color: "#ddd", textDecoration: "none", display: "block" }}
                 >
                   press this to continue lmao
