@@ -49,43 +49,25 @@ export default function Game() {
 
   const isWinCell = (r: number, c: number) => winCells.some(([wr, wc]) => wr === r && wc === c);
 
-  const statusText = () => {
-    if (status === "win") return "You win!";
-    if (status === "lose") return "Computer wins.";
-    if (status === "draw") return "Draw.";
-    if (aiThinking) return "Computer is thinking...";
-    return "Your turn (red)";
-  };
+  const gameOver = status === "win" || status === "lose" || status === "draw";
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f5f5f5", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: "system-ui, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#1a1a1a", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: "system-ui, sans-serif" }}>
       <div style={{ width: "100%", maxWidth: "420px" }}>
-        <h1 style={{ fontSize: "20px", fontWeight: 600, color: "#111", margin: "0 0 4px 0" }}>Connect Four</h1>
-        <p style={{ fontSize: "13px", color: "#666", margin: "0 0 20px 0" }}>You are red. Computer is black.</p>
-
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
-          <span style={{ fontSize: "13px", fontWeight: 500, color: "#333" }}>{statusText()}</span>
-          <button
-            onClick={resetGame}
-            style={{ fontSize: "12px", padding: "5px 12px", borderRadius: "4px", border: "1px solid #d1d1d1", background: "#fff", cursor: "pointer", color: "#333" }}
-          >
-            New Game
-          </button>
-        </div>
 
         <div style={{ display: "flex", gap: "4px", marginBottom: "4px" }}>
           {Array.from({ length: COLS }, (_, c) => (
             <div key={c} style={{ flex: 1, display: "flex", justifyContent: "center", height: "16px" }}>
               {hoverCol === c && status === "playing" && !aiThinking && isValidCol(board, c) && (
-                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ef4444", opacity: 0.6 }} />
+                <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: "#ef4444", opacity: 0.5 }} />
               )}
             </div>
           ))}
         </div>
 
-        <div style={{ background: "#e5e5e5", borderRadius: "6px", padding: "6px", display: "grid", gap: "4px" }}>
+        <div style={{ background: "#374151", borderRadius: "8px", padding: "8px", display: "grid", gap: "5px" }}>
           {Array.from({ length: ROWS }, (_, r) => (
-            <div key={r} style={{ display: "grid", gridTemplateColumns: `repeat(${COLS}, 1fr)`, gap: "4px" }}>
+            <div key={r} style={{ display: "grid", gridTemplateColumns: `repeat(${COLS}, 1fr)`, gap: "5px" }}>
               {Array.from({ length: COLS }, (_, c) => {
                 const cell = board[r][c];
                 const winning = isWinCell(r, c);
@@ -101,9 +83,8 @@ export default function Game() {
                       borderRadius: "50%",
                       border: "none",
                       cursor: status === "playing" && !aiThinking && isValidCol(board, c) ? "pointer" : "default",
-                      background: cell === 0 ? "#fff" : cell === 1 ? (winning ? "#b91c1c" : "#ef4444") : (winning ? "#000" : "#374151"),
-                      outline: winning ? "2px solid white" : "none",
-                      outlineOffset: "-3px",
+                      background: cell === 0 ? "#1a1a1a" : cell === 1 ? (winning ? "#b91c1c" : "#ef4444") : (winning ? "#f3f4f6" : "#9ca3af"),
+                      boxShadow: winning ? "0 0 0 2px rgba(255,255,255,0.35) inset" : "none",
                       transition: "background 0.1s",
                       padding: 0,
                     }}
@@ -114,18 +95,19 @@ export default function Game() {
           ))}
         </div>
 
-        {(status === "win" || status === "lose" || status === "draw") && (
-          <div style={{ marginTop: "14px", padding: "10px 14px", borderRadius: "5px", border: "1px solid #d1d1d1", background: "#fff", fontSize: "13px", color: "#444", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span>
-              {status === "win" && "Nice — you found a win."}
-              {status === "lose" && "The computer played optimally."}
-              {status === "draw" && "No winner this time."}
-            </span>
-            <button onClick={resetGame} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", color: "#666", textDecoration: "underline" }}>
-              Play again
-            </button>
-          </div>
-        )}
+        <div style={{ marginTop: "12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <span style={{ fontSize: "13px", color: "#888" }}>
+            {gameOver
+              ? (status === "win" ? "You win." : status === "lose" ? "Computer wins." : "Draw.")
+              : aiThinking ? "Thinking..." : ""}
+          </span>
+          <button
+            onClick={resetGame}
+            style={{ fontSize: "12px", padding: "5px 12px", borderRadius: "4px", border: "1px solid #444", background: "transparent", cursor: "pointer", color: "#aaa" }}
+          >
+            New Game
+          </button>
+        </div>
       </div>
     </div>
   );
