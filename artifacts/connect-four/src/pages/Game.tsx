@@ -14,7 +14,7 @@ function findDropRow(board: Board, col: number): number {
   return 0;
 }
 
-const CELL_SIZE = 58; // approx px per cell (cell + gap)
+const CELL_SIZE = 58;
 
 export default function Game() {
   const [board, setBoard] = useState<Board>(createBoard);
@@ -94,8 +94,8 @@ export default function Game() {
                 {Array.from({ length: COLS }, (_, c) => {
                   const cell = board[r][c];
                   const winning = isWinCell(r, c);
-                  const isNew = lastPlaced?.row === r && lastPlaced?.col === c;
-                  const dropFrom = `${-(lastPlaced ? (lastPlaced.row * CELL_SIZE + 24) : 0)}px`;
+                  const isNew = lastPlaced?.row === r && lastPlaced?.col === c && cell !== 0;
+                  const dropFrom = `${-(r * CELL_SIZE + 24)}px`;
 
                   return (
                     <button
@@ -109,29 +109,36 @@ export default function Game() {
                         borderRadius: "50%",
                         border: "none",
                         cursor: status === "playing" && !aiThinking && isValidCol(board, c) ? "pointer" : "default",
-                        background: cell === 0 ? "#1a1a1a" : cell === 1 ? (winning ? "#b91c1c" : "#ef4444") : (winning ? "#f3f4f6" : "#9ca3af"),
-                        boxShadow: winning ? "0 0 0 2px rgba(255,255,255,0.35) inset" : "none",
+                        background: "transparent",
                         padding: 0,
-                        // drop animation only on the freshly placed piece
-                        ...(isNew && cell !== 0 ? {
-                          "--drop-from": dropFrom,
-                          animation: `piece-drop ${Math.min(60 + r * 30, 220)}ms ease-in`,
-                          animationFillMode: "none",
-                        } as React.CSSProperties : {}),
                       }}
-                    />
+                    >
+                      <div
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: "50%",
+                          background: cell === 0 ? "#1a1a1a" : cell === 1 ? (winning ? "#b91c1c" : "#ef4444") : (winning ? "#f3f4f6" : "#9ca3af"),
+                          boxShadow: winning ? "0 0 0 2px rgba(255,255,255,0.35) inset" : "none",
+                          ...(isNew ? {
+                            "--drop-from": dropFrom,
+                            animation: `piece-drop ${Math.min(80 + r * 28, 220)}ms ease-in`,
+                          } as React.CSSProperties : {}),
+                        }}
+                      />
+                    </button>
                   );
                 })}
               </div>
             ))}
           </div>
 
-          <div style={{ marginTop: "12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: "13px", color: "#888" }}>
-              {gameOver
-                ? (status === "win" ? "You win." : status === "draw" ? "Draw." : "")
-                : aiThinking ? "Thinking..." : ""}
-            </span>
+          <div style={{ marginTop: "12px", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+            {gameOver && (
+              <span style={{ fontSize: "13px", color: "#888", marginRight: "auto" }}>
+                {status === "win" ? "You win." : status === "draw" ? "Draw." : ""}
+              </span>
+            )}
             <button
               onClick={resetGame}
               style={{ fontSize: "12px", padding: "5px 12px", borderRadius: "4px", border: "1px solid #444", background: "transparent", cursor: "pointer", color: "#aaa" }}
