@@ -135,6 +135,9 @@ export default function Game() {
           </div>
 
           <div style={{ marginTop: "12px", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+            {aiThinking && (
+              <span style={{ fontSize: "13px", color: "#666", marginRight: "auto" }}>thinking...</span>
+            )}
             {gameOver && (
               <span style={{ fontSize: "13px", color: "#888", marginRight: "auto" }}>
                 {status === "win" ? "You win." : status === "draw" ? "Draw." : ""}
