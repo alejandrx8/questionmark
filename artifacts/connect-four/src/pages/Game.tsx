@@ -98,7 +98,7 @@ export default function Game() {
         <div style={{ marginTop: "12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <span style={{ fontSize: "13px", color: "#888" }}>
             {gameOver
-              ? (status === "win" ? "You win." : status === "lose" ? "Computer wins." : "Draw.")
+              ? (status === "win" ? "You win." : status === "draw" ? "Draw." : "")
               : aiThinking ? "Thinking..." : ""}
           </span>
           <button
@@ -108,6 +108,12 @@ export default function Game() {
             New Game
           </button>
         </div>
+
+        {status === "lose" && (
+          <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
+            jajajaja I win 😝 I was letting u win all along btw
+          </div>
+        )}
       </div>
     </div>
   );
