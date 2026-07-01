@@ -68,11 +68,11 @@ export default function Game() {
   return (
     <>
       <style>{`
-        @keyframes piece-drop {
-          0%   { transform: scale(0.4) translateY(-30%); opacity: 0.4; }
-          60%  { transform: scale(1.08) translateY(0); opacity: 1; }
-          80%  { transform: scale(0.96); }
-          100% { transform: scale(1); }
+        @keyframes piece-fall {
+          0%   { transform: translateY(var(--fall-from)); }
+          82%  { transform: translateY(0); }
+          91%  { transform: translateY(4px); }
+          100% { transform: translateY(0); }
         }
         .cell-btn { -webkit-tap-highlight-color: transparent; }
         .cell-btn:active, .cell-btn:focus { background: transparent !important; outline: none; }
@@ -90,13 +90,23 @@ export default function Game() {
             ))}
           </div>
 
-          <div style={{ background: "#374151", borderRadius: "8px", padding: "8px", display: "grid", gap: "5px", overflow: "hidden", position: "relative" }}>
+          <div style={{
+            background: "#374151",
+            borderRadius: "8px",
+            padding: "8px",
+            display: "grid",
+            gap: "5px",
+            position: "relative",
+            clipPath: "inset(0 round 8px)",
+          }}>
             {Array.from({ length: ROWS }, (_, r) => (
               <div key={r} style={{ display: "grid", gridTemplateColumns: `repeat(${COLS}, 1fr)`, gap: "5px" }}>
                 {Array.from({ length: COLS }, (_, c) => {
                   const cell = board[r][c];
                   const winning = isWinCell(r, c);
                   const isNew = lastPlaced?.row === r && lastPlaced?.col === c && cell !== 0;
+                  const fallFrom = `${-(r * 58 + 60)}px`;
+                  const duration = Math.min((r + 1) * 55 + 60, 380);
 
                   return (
                     <button
@@ -126,7 +136,8 @@ export default function Game() {
                           background: cell === 0 ? "#1a1a1a" : cell === 1 ? (winning ? "#b91c1c" : "#ef4444") : (winning ? "#f3f4f6" : "#9ca3af"),
                           boxShadow: winning ? "0 0 0 2px rgba(255,255,255,0.35) inset" : "none",
                           ...(isNew ? {
-                            animation: `piece-drop 280ms ease-out`,
+                            "--fall-from": fallFrom,
+                            animation: `piece-fall ${duration}ms ease-in`,
                           } as React.CSSProperties : {}),
                         }}
                       />
