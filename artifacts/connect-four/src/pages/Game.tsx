@@ -111,7 +111,22 @@ export default function Game() {
 
         {status === "lose" && (
           <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
-            jajajaja I win 😝 I was letting u win all along btw
+            <div>jajajaja I win 😝 I was letting u win all along btw</div>
+            <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
+              <button
+                onClick={resetGame}
+                style={{ fontSize: "13px", padding: "8px 14px", borderRadius: "4px", border: "1px solid #555", background: "#333", cursor: "pointer", color: "#ddd", textAlign: "left" }}
+              >
+                press this to continue lmao
+              </button>
+              {/* ↓ PUT YOUR LINK HERE — replace the href="#" and the label text */}
+              <a
+                href="#"
+                style={{ fontSize: "13px", padding: "8px 14px", borderRadius: "4px", border: "1px solid #555", background: "#333", color: "#ddd", textDecoration: "none", display: "block" }}
+              >
+                click here → (your link goes here)
+              </a>
+            </div>
           </div>
         )}
       </div>
