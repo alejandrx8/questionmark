@@ -74,6 +74,8 @@ export default function Game() {
           from { transform: translateY(var(--drop-from)); }
           to   { transform: translateY(0); }
         }
+        .cell-btn { -webkit-tap-highlight-color: transparent; }
+        .cell-btn:active, .cell-btn:focus { background: transparent !important; outline: none; }
       `}</style>
       <div style={{ minHeight: "100vh", background: "#1a1a1a", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: "system-ui, sans-serif" }}>
         <div style={{ width: "100%", maxWidth: "420px" }}>
@@ -100,6 +102,7 @@ export default function Game() {
                   return (
                     <button
                       key={c}
+                      className="cell-btn"
                       onClick={() => playerMove(c)}
                       onMouseEnter={() => setHoverCol(c)}
                       onMouseLeave={() => setHoverCol(null)}
@@ -111,6 +114,9 @@ export default function Game() {
                         cursor: status === "playing" && !aiThinking && isValidCol(board, c) ? "pointer" : "default",
                         background: "transparent",
                         padding: 0,
+                        outline: "none",
+                        WebkitTapHighlightColor: "transparent",
+                        appearance: "none" as React.CSSProperties["appearance"],
                       }}
                     >
                       <div
