@@ -138,8 +138,23 @@ function minimax(board: Board, depth: number, alpha: number, beta: number, maxim
 }
 
 export function getBestMove(board: Board): number {
-  const [col] = minimax(board, 7, -Infinity, Infinity, true);
-  return col ?? getValidCols(board)[0];
+  const validCols = getValidCols(board);
+
+  // 1. Take an immediate win
+  for (const col of validCols) {
+    const b = dropPiece(board, col, 2)!;
+    if (checkWinner(b) === 2) return col;
+  }
+
+  // 2. Block an immediate player win
+  for (const col of validCols) {
+    const b = dropPiece(board, col, 1)!;
+    if (checkWinner(b) === 1) return col;
+  }
+
+  // 3. Minimax for everything else
+  const [col] = minimax(board, 8, -Infinity, Infinity, true);
+  return col ?? validCols[0];
 }
 
 export function getWinningCells(board: Board): [number, number][] {
