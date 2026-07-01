@@ -76,7 +76,6 @@ export default function Game() {
         }
         .cell-btn { -webkit-tap-highlight-color: transparent; }
         .cell-btn:active, .cell-btn:focus { background: transparent !important; outline: none; }
-        .cell-btn-new { position: relative; z-index: 999; }
       `}</style>
       <div style={{ minHeight: "100vh", background: "#1a1a1a", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: "system-ui, sans-serif" }}>
         <div style={{ width: "100%", maxWidth: "420px" }}>
@@ -105,7 +104,7 @@ export default function Game() {
                   return (
                     <button
                       key={c}
-                      className={`cell-btn${isNew ? " cell-btn-new" : ""}`}
+                      className="cell-btn"
                       onClick={() => playerMove(c)}
                       onMouseEnter={() => setHoverCol(c)}
                       onMouseLeave={() => setHoverCol(null)}
