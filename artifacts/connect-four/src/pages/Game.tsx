@@ -14,7 +14,6 @@ function findDropRow(board: Board, col: number): number {
   return 0;
 }
 
-
 export default function Game() {
   const [board, setBoard] = useState<Board>(createBoard);
   const [status, setStatus] = useState<GameStatus>("playing");
@@ -69,13 +68,15 @@ export default function Game() {
   return (
     <>
       <style>{`
-        @keyframes piece-in {
-          0%   { transform: translateY(-10px); opacity: 0; }
-          60%  { transform: translateY(2px);  opacity: 1; }
-          100% { transform: translateY(0);    opacity: 1; }
+        @keyframes piece-fall {
+          0%   { transform: translateY(var(--fall-from)); }
+          82%  { transform: translateY(0); }
+          91%  { transform: translateY(4px); }
+          100% { transform: translateY(0); }
         }
         .cell-btn { -webkit-tap-highlight-color: transparent; }
         .cell-btn:active, .cell-btn:focus { background: transparent !important; outline: none; }
+        .cell-btn-new { position: relative; z-index: 999; }
       `}</style>
       <div style={{ minHeight: "100vh", background: "#1a1a1a", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "24px", fontFamily: "system-ui, sans-serif" }}>
         <div style={{ width: "100%", maxWidth: "420px" }}>
@@ -90,18 +91,21 @@ export default function Game() {
             ))}
           </div>
 
-          <div style={{ background: "#374151", borderRadius: "8px", padding: "8px", display: "grid", gap: "5px" }}>
+          <div style={{ background: "#374151", borderRadius: "8px", padding: "8px", display: "grid", gap: "5px", overflow: "hidden", position: "relative" }}>
             {Array.from({ length: ROWS }, (_, r) => (
               <div key={r} style={{ display: "grid", gridTemplateColumns: `repeat(${COLS}, 1fr)`, gap: "5px" }}>
                 {Array.from({ length: COLS }, (_, c) => {
                   const cell = board[r][c];
                   const winning = isWinCell(r, c);
                   const isNew = lastPlaced?.row === r && lastPlaced?.col === c && cell !== 0;
+                  // piece starts above the board and falls to its row
+                  const fallFrom = `${-(r * 58 + 60)}px`;
+                  const duration = Math.min((r + 1) * 55 + 60, 380);
 
                   return (
                     <button
                       key={c}
-                      className="cell-btn"
+                      className={`cell-btn${isNew ? " cell-btn-new" : ""}`}
                       onClick={() => playerMove(c)}
                       onMouseEnter={() => setHoverCol(c)}
                       onMouseLeave={() => setHoverCol(null)}
@@ -125,7 +129,10 @@ export default function Game() {
                           borderRadius: "50%",
                           background: cell === 0 ? "#1a1a1a" : cell === 1 ? (winning ? "#b91c1c" : "#ef4444") : (winning ? "#f3f4f6" : "#9ca3af"),
                           boxShadow: winning ? "0 0 0 2px rgba(255,255,255,0.35) inset" : "none",
-                          ...(isNew ? { animation: "piece-in 180ms ease-out" } : {}),
+                          ...(isNew ? {
+                            "--fall-from": fallFrom,
+                            animation: `piece-fall ${duration}ms ease-in`,
+                          } as React.CSSProperties : {}),
                         }}
                       />
                     </button>
@@ -152,19 +159,13 @@ export default function Game() {
           {status === "lose" && (
             <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
               <div>jajajaja I win 😝 I was letting u win all along btw</div>
-              <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                <button
-                  onClick={resetGame}
-                  style={{ fontSize: "13px", padding: "8px 14px", borderRadius: "4px", border: "1px solid #555", background: "#333", cursor: "pointer", color: "#ddd", textAlign: "left" }}
-                >
-                  press this to continue lmao
-                </button>
-                {/* ↓ PUT YOUR LINK HERE — replace the href="#" and the label text */}
+              <div style={{ marginTop: "12px" }}>
+                {/* ↓ Replace href="#" with your URL — the button navigates there when clicked */}
                 <a
                   href="#"
                   style={{ fontSize: "13px", padding: "8px 14px", borderRadius: "4px", border: "1px solid #555", background: "#333", color: "#ddd", textDecoration: "none", display: "block" }}
                 >
-                  click here → (your link goes here)
+                  press this to continue lmao
                 </a>
               </div>
             </div>
