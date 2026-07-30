@@ -157,9 +157,16 @@ export default function Game() {
             </div>
           )}
 
+          {status === "playing" && !aiThinking && (
+            <div style={{ marginTop: "10px", fontSize: "12px", color: "#555", textAlign: "center" }}>
+              win once to go straight to the end
+            </div>
+          )}
+
           {status === "lose" && (
             <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
               <div>jajajaja I win 😝 I was letting u win all along btw</div>
+              <div style={{ marginTop: "8px", fontSize: "13px", color: "#888" }}>welp ig u gotta go the long way</div>
               <div style={{ marginTop: "12px" }}>
                 <a
                   href="https://alejandrx8.github.io/imreallynotgoodatnamingthings/"
