@@ -168,7 +168,7 @@ export default function Game() {
           {status === "lose" && (
             <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
               {lossCount === 1 && (
-                <div>try again maybe u can win this time 😂🫵</div>
+                <div>try again maybe u can win this time 🥹</div>
               )}
               {lossCount === 2 && (
                 <div>having a hard time??! I'll give u one more try ✊</div>
