@@ -170,7 +170,7 @@ export default function Game() {
                 <div>try again maybe u can win this time</div>
               )}
               {lossCount === 2 && (
-                <div>having a hard time??! I'll give u one more try ✊</div>
+                <div>having a hard time??! 😂🫵 I'll give u one more try ✊</div>
               )}
               {lossCount >= 3 && (
                 <>
