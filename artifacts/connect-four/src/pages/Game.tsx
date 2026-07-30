@@ -21,6 +21,7 @@ export default function Game() {
   const [winCells, setWinCells] = useState<[number, number][]>([]);
   const [aiThinking, setAiThinking] = useState(false);
   const [lastPlaced, setLastPlaced] = useState<Placed | null>(null);
+  const [lossCount, setLossCount] = useState(0);
   const counter = useRef(0);
 
   const resetGame = useCallback(() => {
@@ -56,7 +57,7 @@ export default function Game() {
       setLastPlaced({ row, col, id: ++counter.current });
       setBoard(newBoard);
       setAiThinking(false);
-      if (winner === 2) { setWinCells(getWinningCells(newBoard)); setStatus("lose"); }
+      if (winner === 2) { setWinCells(getWinningCells(newBoard)); setStatus("lose"); setLossCount(prev => prev + 1); }
       else if (full) setStatus("draw");
     }, 120);
     return () => clearTimeout(timeout);
@@ -165,16 +166,25 @@ export default function Game() {
 
           {status === "lose" && (
             <div style={{ marginTop: "14px", padding: "12px 14px", borderRadius: "5px", border: "1px solid #3a3a3a", background: "#242424", fontSize: "14px", color: "#ccc" }}>
-              <div>jajajaja I win 😝 I was letting u win all along btw</div>
-              <div style={{ marginTop: "8px", fontSize: "13px", color: "#888" }}>welp ig u gotta go the long way</div>
-              <div style={{ marginTop: "12px" }}>
-                <a
-                  href="https://alejandrx8.github.io/imreallynotgoodatnamingthings/"
-                  style={{ fontSize: "13px", padding: "8px 14px", borderRadius: "4px", border: "1px solid #555", background: "#333", color: "#ddd", textDecoration: "none", display: "block" }}
-                >
-                  press this to continue lmao
-                </a>
-              </div>
+              {lossCount === 1 && (
+                <div>try again maybe u can win this time</div>
+              )}
+              {lossCount === 2 && (
+                <div>having a hard time??! I'll give u one more try ✊</div>
+              )}
+              {lossCount >= 3 && (
+                <>
+                  <div>ig you gotta go the hard way 😖</div>
+                  <div style={{ marginTop: "12px" }}>
+                    <a
+                      href="https://alejandrx8.github.io/imreallynotgoodatnamingthings/"
+                      style={{ fontSize: "13px", padding: "8px 14px", borderRadius: "4px", border: "1px solid #555", background: "#333", color: "#ddd", textDecoration: "none", display: "block" }}
+                    >
+                      press this to continue lmao
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
           )}
         </div>
