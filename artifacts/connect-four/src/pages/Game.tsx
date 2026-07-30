@@ -160,7 +160,7 @@ export default function Game() {
 
           {status === "playing" && !aiThinking && (
             <div style={{ marginTop: "10px", fontSize: "12px", color: "#555", textAlign: "center" }}>
-              win once to go straight to the end
+              win once to go straight to the end 👀
             </div>
           )}
 
@@ -174,7 +174,8 @@ export default function Game() {
               )}
               {lossCount >= 3 && (
                 <>
-                  <div>ig you gotta go the hard way 😖</div>
+                  <div>jajajaja I win 😝 I was letting u win all along btw</div>
+                  <div style={{ marginTop: "6px" }}>ig you gotta go the hard way 😖</div>
                   <div style={{ marginTop: "12px" }}>
                     <a
                       href="https://alejandrx8.github.io/imreallynotgoodatnamingthings/"
