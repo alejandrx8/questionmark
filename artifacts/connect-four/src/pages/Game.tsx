@@ -77,7 +77,7 @@ export default function Game() {
         .cell-btn { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         .cell-btn:active, .cell-btn:focus { background: transparent !important; outline: none; }
       `}</style>
-      <div style={{ minHeight: "100dvh", background: "#1a1a1a", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start", paddingTop: "clamp(16px, 8dvh, 80px)", paddingLeft: "16px", paddingRight: "16px", paddingBottom: "16px", fontFamily: "system-ui, sans-serif" }}>
+      <div style={{ minHeight: "100dvh", background: "#1a1a1a", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "16px", fontFamily: "system-ui, sans-serif" }}>
         <div style={{ width: "100%", maxWidth: "420px" }}>
 
           <div style={{ display: "flex", gap: "4px", marginBottom: "4px" }}>
@@ -135,6 +135,7 @@ export default function Game() {
             ))}
           </div>
 
+          <div style={{ minHeight: "160px" }}>
           <div style={{ marginTop: "12px", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
             {aiThinking && (
               <span style={{ fontSize: "13px", color: "#666", marginRight: "auto" }}>thinking.?.!?.!?..........!?!?</span>
@@ -188,6 +189,7 @@ export default function Game() {
               )}
             </div>
           )}
+          </div>
         </div>
       </div>
     </>
